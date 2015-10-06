@@ -11,6 +11,48 @@ $(document).ready(function() {
         $('.missingPropResult').toggle();
     });
 
+    var tabsInit = {
+        content: false,
+        quality: false,
+        outlierInformation: false,
+        environmentalSampleInfo: false
+    };
+
+    // work-around for intitialIndex & history being mutually exclusive
+    if (OCC_REC.defaultListView && !window.location.hash) {
+        window.location.hash = OCC_REC.defaultListView; // used for avh, etc
+    }
+
+    // initialise BS tabs
+    $('a[data-toggle="tab"]').on('shown', function(e) {
+        //console.log("this", $(this).attr('id'));
+        var id = $(this).attr('id');
+        var tab = e.currentTarget.hash.substring(1);
+        amplify.store('occurrence-tab-state', tab);
+        location.hash = 'tab_'+ tab;
+
+        if (id == "t2" && !tabsInit.quality) {
+            tabsInit.quality = true;
+        } else if (id == "t3" && !tabsInit.outlierInformation) {
+            tabsInit.outlierInformation = true;
+        } else if (id == "t4" && !tabsInit.environmentalSampleInfo) {
+            tabsInit.environmentalSampleInfo = true;
+        }
+    });
+
+    var storedOccurrenceTab = amplify.store('occurrence-tab-state');
+
+    // catch hash URIs and trigger tabs
+    if (location.hash !== '') {
+        $('.nav-tabs a[href="' + location.hash.replace('tab_','') + '"]').tab('show');
+        //$('.nav-tabs li a[href="' + location.hash.replace('tab_','') + '"]').click();
+    } else if (storedOccurrenceTab) {
+        //console.log("stored value", storedSearchTab);
+        $('.nav-tabs a[href="#' + storedOccurrenceTab+ '"]').tab('show');
+    } else {
+        $('.nav-tabs a:first').tab('show');
+    }
+
     refreshUserAnnotations();
 
     // bind to form submit for assertions

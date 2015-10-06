@@ -65,8 +65,7 @@ function validateForm_taxaquery()
 }
 </script>
 
-
-    <div id="listHeader" class="row-fluid heading-bar">
+    <div id="listHeader" class="row-fluid heading-bar" style="margin-top: 50px;">
         <div class="span5">
             <h1><alatag:message code="search.heading.list" default="Search results"/><a name="resultsTop">&nbsp;</a></h1>
         </div>
@@ -120,6 +119,14 @@ function validateForm_taxaquery()
     </g:elseif>
     <g:else>
         <!--  first row (#searchInfoRow), contains customise facets button and number of results for query, etc.  -->
+        <ul id="systemAssertions" style="list-style: none; margin-top: 5px">
+            <li id="dataQualityFurtherDetails">
+                <i class="icon-flag"></i>&nbsp;
+                <a href="mailto:feedback@gbif.es?subject=Error en registro. Por favor especifique la URL del registro donde ha encontrado el error."><g:message code="show.button.assertionbutton.span"/></a>
+            </br>
+                <span style="color:grey;font-size:10px">(email > feedback@gbif.es)</span>
+            </li>
+        </ul>
         <div class="row-fluid clearfix" id="searchInfoRow">
             <!-- facet column -->
             <div class="span3">
@@ -150,8 +157,10 @@ function validateForm_taxaquery()
                                         %{--<g:set var="facet" value="${defaultFacets.get(facetFromGroup)}"/>--}%
                                             <g:if test="${defaultFacets.containsKey(facetFromGroup)}">
                                                 <g:set var="count" value="${count+1}"/>
-                                                <input type="checkbox" name="facets" class="facetOpts" value="${facetFromGroup}"
-                                                    ${(defaultFacets.get(facetFromGroup)) ? 'checked=checked' : ''}>&nbsp;<alatag:message code="facet.${facetFromGroup}"/><br>
+                                                <g:if test="${facetFromGroup != 'cl1048' && facetFromGroup != 'cl21' && facetFromGroup != 'alau_user_id' && facetFromGroup != 'subspecies_name' && facetFromGroup != 'species_subgroup' && facetFromGroup != 'ibra' && facetFromGroup != 'imcra'}">
+                                                    <input type="checkbox" name="facets" class="facetOpts" value="${facetFromGroup}"
+                                                        ${(defaultFacets.get(facetFromGroup)) ? 'checked=checked' : ''}>&nbsp;<g:message code="facet.${facetFromGroup}"/><br>
+                                                </g:if>
                                             </g:if>
                                         </g:each>
                                     </div>

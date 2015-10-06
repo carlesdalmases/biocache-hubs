@@ -37,7 +37,7 @@ div.recordHeader {
 }
 
 #headingBar{
-    margin-top: 50px;
+    margin-top:45px;
 }
 
 div#occurrenceMap {
@@ -90,6 +90,13 @@ h1 span#recordId {
 #content2 h3 {
     margin-top: 4px;
 }
+
+.nav-tabs li a {
+    background-color: #f0f0e8;
+    border: 1px solid #ddd;
+    margin-right: 4px;
+}
+
 #institutionLogo {
     max-width: 280px;
 }
